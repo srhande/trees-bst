@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BinarySearchTree.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PA8Starter</a> &gt; <a href="index.source.html" class="el_package">com.cse.ds</a> &gt; <span class="el_source">BinarySearchTree.java</span></div><h1>BinarySearchTree.java</h1><pre class="source lang-java linenums">/** File Header: This file contains the implementation of the BST creation process.
+ * It also includes the implementation of various other operations that can be used to analyze the BST.
+ * The BST is made up of nodes that contain a city and a population. 
+ * @author Samruddhi Hande
+ * @email shande@ucsd.edu */
+package com.cse.ds;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+/** Class Header: This class implements the methods we use to create and analzye the binary search tree data structure. We have one instance variable named root, which is where the tree begins.*/
+public class BinarySearchTree {
+
+	private Node root; //root element
+
+	// ============== BALANCED TREE CREATION ====================//
+    /** Constructor: creates the BST based on a String array of cities and an int array of populations
+     * @param string array of cities, int array of populations */
+<span class="fc" id="L22">	public BinarySearchTree(String[] cities, int[] population) {</span>
+		// TODO: Create a balanced BST by starting at mid node and creating tree
+		// recursively.
+		// Use trim on cities names before adding
+<span class="pc bpc" id="L26" title="2 of 8 branches missed.">		if (cities == null || population == null || cities.length == 0 || population.length == 0) {</span>
+<span class="fc" id="L27">			root = null;</span>
+<span class="fc" id="L28">		} else {</span>
+<span class="fc" id="L29">			Node[] cityPop = new Node[cities.length];</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">			for (int i = 0; i &lt; cities.length; i++) {</span>
+<span class="fc" id="L31">				cityPop[i] = new Node(cities[i], population[i]);</span>
+			}
+<span class="fc" id="L33">			root = bstRecursive(cityPop, 0, cities.length - 1);</span>
+		}
+
+<span class="fc" id="L36">	}</span>
+
+    /** Recursive Helper Method to implement constructors.
+     * @param node array, int, int -&gt; city &amp; population nodes, left index, right index
+     * @return middle node */
+	private Node bstRecursive(Node[] cityPop, int leftIndex, int rightIndex) {
+
+<span class="fc" id="L43">		int midIndex = ((leftIndex + rightIndex) / 2);</span>
+<span class="fc" id="L44">		Node midNode = cityPop[midIndex];</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		if (leftIndex &lt; rightIndex) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">			if (leftIndex &lt; midIndex) {</span>
+<span class="fc" id="L47">				midNode.left = bstRecursive(cityPop, leftIndex, midIndex - 1);</span>
+			}
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">			if (midIndex &lt; rightIndex) {</span>
+<span class="fc" id="L50">				midNode.right = bstRecursive(cityPop, midIndex + 1, rightIndex);</span>
+			}
+		}
+<span class="fc" id="L53">		return midNode;</span>
+	}
+
+    /**Constructor: creates BST based on a file and the number of lines in the file passed in
+     * @param string, int - file name and number of lines (file name in this case is input.txt); passed in using a Scanner */
+<span class="fc" id="L58">	public BinarySearchTree(String filename, int num_lines) {</span>
+		// TODO: Create a balanced BST from the input.txt
+		// Use trim on cities names before adding
+<span class="fc" id="L61">		Scanner input = null;</span>
+
+		try {
+<span class="fc" id="L64">			input = new Scanner(new File(filename));</span>
+
+<span class="fc" id="L66">			Node[] cityPop = new Node[num_lines];</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">			for (int i = num_lines - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L68">				String line = input.nextLine();</span>
+<span class="fc" id="L69">				int index = line.indexOf(&quot;=&gt;&quot;);</span>
+
+<span class="fc" id="L71">				String city = line.substring(0, index).trim();</span>
+<span class="fc" id="L72">				int pop = Integer.parseInt(line.substring(index + 2).trim());</span>
+
+<span class="fc" id="L74">				cityPop[i] = new Node(city, pop);</span>
+			}
+<span class="fc" id="L76">			root = bstRecursive(cityPop, 0, cityPop.length - 1);</span>
+<span class="pc" id="L77">		} catch (Exception e) {</span>
+		} finally {
+<span class="fc" id="L79">			input.close();</span>
+		}
+		
+<span class="fc" id="L82">	}</span>
+
+	// ============== COMMON TREE OPERATIONS ====================//
+    /** recursive helper method to add cities
+     * @param new node to be added, the children node */
+	private void addNodeRecursive(Node newNode, Node subRoot) {
+<span class="fc bfc" id="L88" title="All 2 branches covered.">		if (newNode.population &lt;= subRoot.population) {</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">			if (subRoot.left != null) {</span>
+<span class="fc" id="L90">				addNodeRecursive(newNode, subRoot.left);</span>
+<span class="fc" id="L91">			} else {</span>
+<span class="fc" id="L92">				subRoot.left = newNode;</span>
+			}
+<span class="fc" id="L94">		} else {</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">			if (subRoot.right != null) {</span>
+<span class="fc" id="L96">				addNodeRecursive(newNode, subRoot.right);</span>
+<span class="fc" id="L97">			} else {</span>
+<span class="fc" id="L98">				subRoot.right = newNode;</span>
+			}
+		}
+<span class="fc" id="L101">	}</span>
+	
+    /** adds new city to BST; implements helper method addNodeRecursive
+     * @param String city, int population */
+	public void addCity(String city, int population) {
+		// TODO: Add city node to BST
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">		if (city == null) {</span>
+<span class="nc" id="L108">			throw new IllegalArgumentException(&quot;need city name&quot;);</span>
+		}
+<span class="fc" id="L110">		Node newCity = new Node(city, population);</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">		if (root == null) {</span>
+<span class="fc" id="L112">			root = newCity;</span>
+<span class="fc" id="L113">		} else {</span>
+<span class="fc" id="L114">			addNodeRecursive(newCity, root);</span>
+		}
+<span class="fc" id="L116">	}</span>
+
+	/** recursive helper method to find depth at each node
+     * @param node whose depth needs to be calculated
+     * @return int depth */
+	public int findDepth(Node node) {
+<span class="fc bfc" id="L122" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L123">			return 0;</span>
+		}
+<span class="fc" id="L125">		int depth = Math.max(findDepth(node.left), findDepth(node.right)) + 1;</span>
+<span class="fc" id="L126">		return depth;</span>
+	}
+	
+    /** returns the maximum depth of BST
+     * @return max depth by calling recursive helper method */
+	public int getMaxDepth() {
+		// TODO: Get the max depth of BST
+<span class="fc" id="L133">		return findDepth(root);</span>
+	}
+
+    /** recursive helper method to find width of BST
+     * @param node, column, bounds
+     * @return int array with bounds of widths on each side */
+	private int[] findWidth(Node node, int column, int[] bounds) {
+<span class="fc bfc" id="L140" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L141">			return new int[] {0,0};</span>
+		}
+<span class="fc bfc" id="L143" title="All 2 branches covered.">		if (column &lt; bounds[0]) {</span>
+<span class="fc" id="L144">			bounds[0] = column;</span>
+		} 
+<span class="fc bfc" id="L146" title="All 2 branches covered.">		if (column &gt; bounds[1]){</span>
+<span class="fc" id="L147">			bounds[1] = column;</span>
+		}
+		
+<span class="fc bfc" id="L150" title="All 2 branches covered.">		if (node.left != null) {</span>
+<span class="fc" id="L151">			findWidth(node.left, column - 1, bounds);</span>
+		}
+<span class="fc bfc" id="L153" title="All 2 branches covered.">		if (node.right != null) {</span>
+<span class="fc" id="L154">			findWidth(node.right, column + 1, bounds);</span>
+		}
+<span class="fc" id="L156">		return bounds;</span>
+		
+	}
+	
+	/** returns maximum width of BST
+	 * @return integer that is the width */
+	public int getMaxWidth() {
+		// TODO: Get the maximum width of BST
+<span class="fc" id="L164">		int[] width = findWidth(root, 0, new int[]{0,1});</span>
+<span class="fc" id="L165">		return (width[1] - width[0]);</span>
+	}
+
+	/** returns the city with the smallest population 
+	 * @return String - name of the city with smallest population */
+	public String getSmallestCity() {
+		// TODO: Get the smallest population city.
+<span class="fc bfc" id="L172" title="All 2 branches covered.">		if (root == null) {</span>
+<span class="fc" id="L173">			return null;</span>
+		}
+<span class="fc" id="L175">		Node curRoot = root;</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">		while (curRoot.left != null) {</span>
+<span class="fc" id="L177">			curRoot = curRoot.left;</span>
+		}
+<span class="fc" id="L179">		return curRoot.city;</span>
+	}
+
+	/** returns the city with the largest population
+	 * @return String - name of the city with the largest population */
+	public String getLargestCity() {
+		// TODO: Get the largest population city.
+<span class="fc bfc" id="L186" title="All 2 branches covered.">		if (root == null) {</span>
+<span class="fc" id="L187">			return null;</span>
+		}
+<span class="fc" id="L189">		Node curRoot = root;</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">		while (curRoot.right != null) {</span>
+<span class="fc" id="L191">			curRoot = curRoot.right;</span>
+		}
+<span class="fc" id="L193">		return curRoot.city;</span>
+	}
+
+	// ============== TREE TRAVERSALS ====================//
+	/** helper method to help with pre order traversal 
+	 * @param list of Strings treeOrder, node */
+	private void preOrderHelper(List&lt;String&gt; treeOrder, Node node) {
+<span class="fc bfc" id="L200" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L201">			return;</span>
+		}
+<span class="fc" id="L203">		treeOrder.add(node.city);</span>
+<span class="fc" id="L204">		preOrderHelper(treeOrder, node.left);</span>
+<span class="fc" id="L205">		preOrderHelper(treeOrder, node.right);</span>
+<span class="fc" id="L206">	}</span>
+	
+	/** returns list of cities in pre order traversal
+	 * @return list of Strings treePreOrder - cities in pre-order*/
+	public List&lt;String&gt; getPreOrderTraversal() {
+		// TODO: Get preorder traversal.
+<span class="fc" id="L212">		List&lt;String&gt; treePreOrder = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L213">		preOrderHelper(treePreOrder, root);</span>
+<span class="fc" id="L214">		return treePreOrder;</span>
+	}
+
+	/** helper method to help with post order traversal 
+	 * @param list of Strings treeOrder, node */
+	private void postOrderHelper(List&lt;String&gt; treeOrder, Node node) {
+<span class="fc bfc" id="L220" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L221">			return;</span>
+		}
+<span class="fc" id="L223">		postOrderHelper(treeOrder, node.left);</span>
+<span class="fc" id="L224">		postOrderHelper(treeOrder, node.right);</span>
+<span class="fc" id="L225">		treeOrder.add(node.city);</span>
+<span class="fc" id="L226">	}</span>
+	
+	/** returns list of cities in post order traversal
+	 * @return list of Strings treePostOrder - cities in post-order*/
+	public List&lt;String&gt; getPostOrderTraversal() {
+		// TODO: Get postorder traversal.
+<span class="fc" id="L232">		List&lt;String&gt; treePostOrder = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L233">		postOrderHelper(treePostOrder, root);</span>
+<span class="fc" id="L234">		return treePostOrder;</span>
+	}
+
+	/** helper method to help with in order traversal 
+	 * @param list of Strings treeOrder, node */
+	private void inOrderHelper(List&lt;String&gt; treeOrder, Node node) {
+<span class="fc bfc" id="L240" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L241">			return;</span>
+		}
+<span class="fc" id="L243">		inOrderHelper(treeOrder, node.left);</span>
+<span class="fc" id="L244">		treeOrder.add(node.city);</span>
+<span class="fc" id="L245">		inOrderHelper(treeOrder, node.right);</span>
+<span class="fc" id="L246">	}</span>
+	
+	/** returns list of city names in sorted order 
+	 * @return treeInOrder - list of Strings containing sorted city names*/
+	public List&lt;String&gt; getSortedCities() {
+<span class="fc" id="L251">		List&lt;String&gt; treeInOrder = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L252">		inOrderHelper(treeInOrder, root);</span>
+<span class="fc" id="L253">		return treeInOrder;</span>
+	}
+
+	/** helper method for getLevelWiseCities() - helps return each layer of cities in a list
+	 * @param node, layers, current depth */
+	private void levelHelper(Node node, List&lt;List&lt;String&gt;&gt; layers, int currentDepth) {
+<span class="fc bfc" id="L259" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L260">			return;</span>
+		}
+<span class="fc" id="L262">		layers.get(currentDepth).add(node.city);</span>
+<span class="fc" id="L263">		levelHelper(node.left, layers, currentDepth + 1);</span>
+<span class="fc" id="L264">		levelHelper(node.right, layers, currentDepth + 1);</span>
+<span class="fc" id="L265">	}</span>
+	
+	/** returns a list of lists; each list within the list stores all the city names at a specific level of the BST 
+	 * @return layers - list of levels */
+	public List&lt;List&lt;String&gt;&gt; getLevelWiseCities() {
+		// TODO: Get cities level wise
+<span class="fc" id="L271">		int depth = this.getMaxDepth();</span>
+<span class="fc" id="L272">		List&lt;List&lt;String&gt;&gt; layers = new ArrayList&lt;List&lt;String&gt;&gt;();</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">		for (int i = 0; i &lt; depth; i++) {</span>
+<span class="fc" id="L274">			layers.add(new ArrayList&lt;String&gt;());</span>
+		}
+<span class="fc" id="L276">		levelHelper(root, layers, 0);</span>
+<span class="fc" id="L277">		return layers;</span>
+	}
+
+	/** helper method for getLevelWiseCities() - helps return each layer of cities in a list; reverses city order if necessary
+	 * @param node, layers, current depth */
+	private void twistyHelper(Node node, List&lt;List&lt;String&gt;&gt; layers, int currentDepth) {
+<span class="fc bfc" id="L283" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L284">			return;</span>
+		}
+		
+<span class="fc bfc" id="L287" title="All 2 branches covered.">		if (currentDepth % 2 == 1) {</span>
+<span class="fc" id="L288">			layers.get(currentDepth).add(0, node.city);</span>
+<span class="fc" id="L289">		} else { </span>
+<span class="fc" id="L290">			layers.get(currentDepth).add(node.city);</span>
+		}
+<span class="fc" id="L292">		twistyHelper(node.left, layers, currentDepth + 1);</span>
+<span class="fc" id="L293">		twistyHelper(node.right, layers, currentDepth + 1);</span>
+<span class="fc" id="L294">	}</span>
+	
+	/** returns a list of lists; each list within the list stores all the city names at a specific level of the BST 
+	 * @return layers - list of levels in twisty order */
+	public List&lt;List&lt;String&gt;&gt; getTwistyTraversal() {
+<span class="fc" id="L299">		int depth = this.getMaxDepth();</span>
+<span class="fc" id="L300">		List&lt;List&lt;String&gt;&gt; layers = new ArrayList&lt;List&lt;String&gt;&gt;();</span>
+<span class="fc bfc" id="L301" title="All 2 branches covered.">		for (int i = 0; i &lt; depth; i++) {</span>
+<span class="fc" id="L302">			layers.add(new ArrayList&lt;String&gt;());</span>
+		}
+<span class="fc" id="L304">		twistyHelper(root, layers, 0);</span>
+<span class="fc" id="L305">		return layers;</span>
+	}
+
+	// ============== TREE VIEWS ====================//
+	/** returns right view of BST 
+	 * @return rightView - list of city names in right view */
+	public List&lt;String&gt; getRightView() {
+		// TODO: Get right side view of BST
+<span class="fc" id="L313">		List&lt;List&lt;String&gt;&gt; layers = getLevelWiseCities();</span>
+<span class="fc" id="L314">		List&lt;String&gt; rightView = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L315" title="All 2 branches covered.">		for (int i = 0; i &lt; layers.size(); i++) {</span>
+<span class="fc" id="L316">			List&lt;String&gt; row = layers.get(i);</span>
+<span class="fc" id="L317">			rightView.add(row.get(row.size() - 1));</span>
+		}
+<span class="fc" id="L319">		return rightView;</span>
+	}
+
+	/** returns left view of BST 
+	 * @return leftView - list of city names in left view */
+	public List&lt;String&gt; getLeftView() {
+		// TODO: Get left side view of BST
+<span class="fc" id="L326">		List&lt;List&lt;String&gt;&gt; layers = getLevelWiseCities();</span>
+<span class="fc" id="L327">		List&lt;String&gt; leftView = new ArrayList&lt;String&gt;();</span>
+<span class="fc bfc" id="L328" title="All 2 branches covered.">		for (int i = 0; i &lt; layers.size(); i++) {</span>
+<span class="fc" id="L329">			leftView.add(layers.get(i).get(0));</span>
+		}
+<span class="fc" id="L331">		return leftView;</span>
+	}
+
+	/** recursive helper method for top view - checks which one is topmost
+	 * @param node, topView, depths, depth, column, lower bound*/
+	private void topHelper(Node node, String[] topView, int[] depths, int depth, int column, int lowB) {
+<span class="fc bfc" id="L337" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L338">			return;</span>
+		}
+<span class="pc bpc" id="L340" title="1 of 4 branches missed.">		if (topView[column - lowB] == null || depths[column - lowB] &gt; depth) {</span>
+<span class="fc" id="L341">			topView[column - lowB] = node.city;</span>
+<span class="fc" id="L342">			depths[column - lowB] = depth;</span>
+		}
+<span class="fc" id="L344">		topHelper(node.left, topView, depths, depth + 1, column - 1, lowB);</span>
+<span class="fc" id="L345">		topHelper(node.right, topView, depths, depth + 1, column + 1, lowB);</span>
+<span class="fc" id="L346">	}</span>
+	
+	/** returns top view of BST 
+	 * @return topView - list of city names in top view */
+	public List&lt;String&gt; getTopView() {
+		// TODO: Get top view of BST
+<span class="fc" id="L352">		int[] bounds = findWidth(root, 0, new int[] {0, 0});</span>
+<span class="fc" id="L353">		String[] topView = new String[bounds[1] - bounds[0] +1];</span>
+<span class="fc" id="L354">		int[] depths = new int[bounds[1] - bounds[0] +1];</span>
+<span class="fc bfc" id="L355" title="All 2 branches covered.">		for (int i = 0; i &lt; depths.length; i++) {</span>
+<span class="fc" id="L356">			depths[i] = Integer.MAX_VALUE;</span>
+		}
+<span class="fc" id="L358">		topHelper(root, topView, depths, 1,  0, bounds[0]);</span>
+<span class="fc" id="L359">		return Arrays.asList(topView);</span>
+	}
+
+	/** recursive helper method for top view - checks which one is bottom-most
+	 * @param node, bottomView, depths, depth, column, lower bound*/
+	private void bottomHelper(Node node, String[] bottomView, int[] depths, int depth, int column, int lowB) {
+<span class="fc bfc" id="L365" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L366">			return;</span>
+		} 
+<span class="pc bpc" id="L368" title="1 of 4 branches missed.">		if (bottomView[column - lowB] == null || depths[column - lowB] &lt; depth) {</span>
+<span class="fc" id="L369">			bottomView[column - lowB] = node.city;</span>
+<span class="fc" id="L370">			depths[column - lowB] = depth;</span>
+		}
+<span class="fc" id="L372">		bottomHelper(node.left, bottomView, depths, depth + 1, column - 1, lowB);</span>
+<span class="fc" id="L373">		bottomHelper(node.right, bottomView, depths, depth + 1, column + 1, lowB);</span>
+<span class="fc" id="L374">	}</span>
+	
+	/** returns bottom view of BST 
+	 * @return bottomView - list of city names in bottom view */
+	public List&lt;String&gt; getBottomView() {
+		// TODO: Get bottom view of BST
+<span class="fc" id="L380">		int[] bounds = findWidth(root, 0, new int[] {0, 0});</span>
+<span class="fc" id="L381">		String[] bottomView = new String[bounds[1] - bounds[0] +1];</span>
+<span class="fc" id="L382">		int[] depths = new int[bounds[1] - bounds[0] +1];</span>
+<span class="fc bfc" id="L383" title="All 2 branches covered.">		for (int i = 0; i &lt; depths.length; i++) {</span>
+<span class="fc" id="L384">			depths[i] = Integer.MIN_VALUE;</span>
+		}
+<span class="fc" id="L386">		bottomHelper(root, bottomView, depths, 1, 0, bounds[0]);</span>
+<span class="fc" id="L387">		return Arrays.asList(bottomView);</span>
+	}
+
+	// ============== SPECIAL TREE OPERATIONS ====================//
+	/** recursive helper method to help calculate tilt of a BST - calculates subtree calculations 
+	 * @return tilt */
+	private int tiltHelper(Node node) {
+<span class="fc bfc" id="L394" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L395">			return 0;</span>
+		}
+<span class="fc" id="L397">		int tilt = Math.abs(tiltSum(node.left) - tiltSum(node.right));</span>
+<span class="fc" id="L398">		return tiltHelper(node.left) + tiltHelper(node.right) + tilt;</span>
+	}
+	
+	/** second helper method, also recursive, to calculate tilt of BST - adds up populations
+	 * @param node
+	 * @return population totals */
+	private int tiltSum(Node node) {
+<span class="fc bfc" id="L405" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L406">			return 0;</span>
+		}
+<span class="fc" id="L408">		return tiltSum(node.left) + tiltSum(node.right) + node.population;</span>
+	}
+	
+	/** returns tilt of BST starting at root
+	 * tilt is absolute difference between the sum of all left subtree node values and the sum of all right subtree node values
+	 * @param node
+	 * @return tilt */
+	public int getBSTilt() {
+		// TODO: Get the tilt of BST
+<span class="fc" id="L417">		return tiltHelper(root);</span>
+	}
+
+	/** recursive helper method that helps calculate the possible paths
+	 * @param node, cityPath, paths
+	 */
+	private void pathHelper(Node node, String cityPath, List&lt;String&gt; paths) {
+<span class="fc bfc" id="L424" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L425">			return;</span>
+		}
+<span class="fc" id="L427">		cityPath = cityPath + &quot;=&gt;&quot; + node.city;</span>
+<span class="pc bpc" id="L428" title="1 of 4 branches missed.">		if (node.left == null &amp;&amp; node.right == null) {</span>
+<span class="fc" id="L429">			paths.add(cityPath);</span>
+<span class="fc" id="L430">		} else {</span>
+<span class="fc" id="L431">			pathHelper(node.left, cityPath, paths);</span>
+<span class="fc" id="L432">			pathHelper(node.right, cityPath, paths);</span>
+		}
+<span class="fc" id="L434">	}</span>
+	
+	/** returns list of all paths 
+	 * @return pathList - list of city names - routes that one can take from root to each city node*/
+	public List&lt;String&gt; getAllPaths() {
+		// TODO: Get all the root to leaf paths in the tree
+		// HINT: iterate left first and then iterate right
+<span class="fc" id="L441">		List&lt;String&gt; pathList = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L442">		pathHelper(root, &quot;&quot; , pathList);</span>
+<span class="fc" id="L443">		return pathList;</span>
+	}
+
+	/** recursive helper method to flatten BST 
+	 * @param llOrder, node*/
+	private void toLLHelper(List&lt;Node&gt; llOrder, Node node) {
+<span class="fc bfc" id="L449" title="All 2 branches covered.">		if (node == null) {</span>
+<span class="fc" id="L450">			return;</span>
+		}
+<span class="fc" id="L452">		llOrder.add(node);</span>
+<span class="fc" id="L453">		toLLHelper(llOrder, node.left);</span>
+<span class="fc" id="L454">		toLLHelper(llOrder, node.right);</span>
+<span class="fc" id="L455">	}</span>
+	
+	/** flattens tree to create a singly linked list */
+	public void flattenToLL() {
+		// TODO: Flatten BST to a Linked List like structure
+<span class="fc" id="L460">		List&lt;Node&gt; toLL = new ArrayList&lt;Node&gt;();</span>
+<span class="fc" id="L461">		toLLHelper(toLL, root);</span>
+<span class="fc bfc" id="L462" title="All 2 branches covered.">		for (int i = 0; i &lt; toLL.size() - 1; i++) {</span>
+<span class="fc" id="L463">			toLL.get(i).left = null;</span>
+<span class="fc" id="L464">			toLL.get(i).right = toLL.get(i + 1);</span>
+		}
+<span class="fc" id="L466">		root = toLL.get(0);</span>
+<span class="fc" id="L467">		toLL.get(toLL.size() - 1).left =  null;</span>
+<span class="fc" id="L468">		toLL.get(toLL.size() - 1).right = null;</span>
+<span class="fc" id="L469">	}</span>
+
+	// ============== TREE VISUALIZATION ====================//
+	/** toString method to visualize the BST
+	 * @return String - to see tree */
+	@Override
+	public String toString() {
+		// TODO: Generate tree representation as give in writeup
+<span class="fc bfc" id="L477" title="All 2 branches covered.">		if (root == null) {</span>
+<span class="fc" id="L478">			return &quot;|NULL\n&quot;;</span>
+		}
+<span class="fc" id="L480">		return toStringHelper(root, &quot;|&quot;);</span>
+	}
+	
+	/** recursive helper method to visualize tree in toString method 
+	 * @param current, prefix
+	 * @return String s */
+	private String toStringHelper(Node current, String prefix) {
+<span class="fc" id="L487">		String s = prefix + current.city + &quot;:&quot; + current.population + &quot;\n&quot;;</span>
+<span class="fc" id="L488">		s += prefix + &quot;L:\n&quot;;</span>
+<span class="fc bfc" id="L489" title="All 2 branches covered.">		if (current.left == null) {</span>
+<span class="fc" id="L490">			s += prefix + &quot;-----NULL\n&quot;;</span>
+<span class="fc" id="L491">		} else {</span>
+<span class="fc" id="L492">			s += toStringHelper(current.left, prefix + &quot;-----&quot;);</span>
+		}
+<span class="fc" id="L494">		s += prefix + &quot;R:\n&quot;;</span>
+<span class="fc bfc" id="L495" title="All 2 branches covered.">		if (current.right == null) {</span>
+<span class="fc" id="L496">			s += prefix + &quot;-----NULL\n&quot;;</span>
+<span class="fc" id="L497">		} else {</span>
+<span class="fc" id="L498">			s += toStringHelper(current.right, prefix + &quot;-----&quot;);</span>
+		}
+<span class="fc" id="L500">		return s;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="12" failures="0" name="com.cse.ds.GenericTest" time="0" errors="0" skipped="0">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="java.vm.version" value="12+33"/>
+    <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk-12.jdk/Contents/Home/lib"/>
+    <property name="maven.multiModuleProjectDirectory" value="/Users/samruddhihande/PA8"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="path.separator" value=":"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="/Users/samruddhihande/PA8"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="java.runtime.version" value="12+33"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.CGraphicsEnvironment"/>
+    <property name="os.arch" value="x86_64"/>
+    <property name="java.io.tmpdir" value="/var/folders/qs/h6crks9151v2r45jpf_f_kzc0000gn/T/"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="classworlds.conf" value="/Users/samruddhihande/eclipse-workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf13318704155769235210.tmp"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/samruddhihande/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="jdk.debug" value="release"/>
+    <property name="java.class.version" value="56.0"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="10.14.4"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="user.home" value="/Users/samruddhihande"/>
+    <property name="user.timezone" value="America/Los_Angeles"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="12"/>
+    <property name="user.name" value="samruddhihande"/>
+    <property name="java.class.path" value="/Users/samruddhihande/.p2/pool/plugins/org.eclipse.m2e.maven.runtime_1.11.0.20190220-2117/jars/plexus-classworlds-2.5.2.jar"/>
+    <property name="java.vm.specification.version" value="12"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B install"/>
+    <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk-12.jdk/Contents/Home"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="awt.toolkit" value="sun.lwawt.macosx.LWCToolkit"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.version" value="12"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="/Users/samruddhihande/PA8/EMBEDDED"/>
+    <property name="file.separator" value="/"/>
+    <property name="java.version.date" value="2019-03-19"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+  </properties>
+  <testcase classname="com.cse.ds.GenericTest" name="test1" time="0"/>
+  <testcase classname="com.cse.ds.GenericTest" name="test2" time="0"/>
+  <testcase classname="com.cse.ds.GenericTest" name="test2_2" time="0"/>
+  <testcase classname="com.cse.ds.GenericTest" name="test2_3" time="0"/>
+  <testcase classname="com.cse.ds.GenericTest" name="test2_4" time="0"/>
+  <testcase classname="com.cse.ds.GenericTest" name="test2_5" time="0"/>
+  <testcase classname="com.cse.ds.GenericTest" name="test3" time="0"/>
+  <testcase classname="com.cse.ds.GenericTest" name="test4" time="0"/>
+  <testcase classname="com.cse.ds.GenericTest" name="test5" time="0"/>
+  <testcase classname="com.cse.ds.GenericTest" name="test6" time="0"/>
+  <testcase classname="com.cse.ds.GenericTest" name="test7" time="0"/>
+  <testcase classname="com.cse.ds.GenericTest" name="test9" time="0"/>
+</testsuite>
